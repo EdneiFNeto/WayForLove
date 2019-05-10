@@ -65,7 +65,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/campo_nome"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="26dp"
@@ -90,8 +90,8 @@
         android:text="Sexo"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/campo_nome"
+        app:layout_constraintTop_toBottomOf="@+id/campo_nome" />
 
     <TextView
         android:id="@+id/textView3"
@@ -103,18 +103,18 @@
         android:text="Tipo de corpo"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/spinner_sexo"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toEndOf="@+id/campo_sexo"
+        app:layout_constraintTop_toBottomOf="@+id/campo_nome" />
 
     <Spinner
-        android:id="@+id/spinner_tipo_de_corpo"
+        android:id="@+id/campo_tipo_fisico"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bordar_spinner"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/campo_nome"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -128,12 +128,12 @@
         android:text="Cor"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/spinner_tipo_de_corpo"
-        app:layout_constraintStart_toStartOf="@+id/spinner_sexo"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_sexo" />
+        app:layout_constraintEnd_toEndOf="@+id/campo_tipo_fisico"
+        app:layout_constraintStart_toStartOf="@+id/campo_sexo"
+        app:layout_constraintTop_toBottomOf="@+id/campo_sexo" />
 
     <Spinner
-        android:id="@+id/spinner_cor"
+        android:id="@+id/campo_cor"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
@@ -143,7 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Spinner
-        android:id="@+id/spinner_sexo"
+        android:id="@+id/campo_sexo"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"

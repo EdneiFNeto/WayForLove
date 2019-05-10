@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">WayForLove</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="perfil">Perfil</string>
+    <string name="sobre">Sobre</string>
+    <string name="sair">Sair</string>
+
+    <string-array name="sexo">
+        <item>Sexo</item>
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+
+    <string-array name="tipo_fisico">
+        <item>Tipo físico</item>
+        <item>Magro(a)</item>
+        <item>Fofinho(a)</item>
+        <item>Sarado(a)</item>
+    </string-array>
+
+    <string-array name="cor">
+        <item>Cor</item>
+        <item>Loiro(a)</item>
+        <item>Negro(a)</item>
+        <item>Moreno(a)</item>
+        <item>Ruivo(a)</item>
+        <item>Branco(a)</item>
+    </string-array>
+
 </resources>
