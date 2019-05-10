@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,8 +95,10 @@ public class PerfilActivity extends AppCompatActivity {
 
             //add usuario na lista
             if (usuarioDao.addUsuario(usuario)) {
+
+                Log.e(TAG, usuarioDao.lista().toString());
                 Intent intent = new Intent(this, MapaActivity.class);
-                intent.putExtra("usuario", usuario);
+                //intent.putExtra("usuario", usuario);
                 startActivity(intent);
             } else {
                 new DialogSalvarUsuarioUtil(PerfilActivity.this).showMensagem("Aviso", "Erro ao cadsatrar usuário;");
