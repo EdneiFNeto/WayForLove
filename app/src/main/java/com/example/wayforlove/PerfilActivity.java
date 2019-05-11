@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import com.example.wayforlove.dao.UsuarioDao;
 import com.example.wayforlove.modelo.Usuario;
 import com.example.wayforlove.util.DialogSalvarUsuarioUtil;
+import com.google.android.gms.maps.model.LatLng;
+
 
 public class PerfilActivity extends AppCompatActivity {
 
@@ -38,14 +40,6 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
 
-    private void PreencheCampoSpinner(Spinner spinner, int arrays) {
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                arrays, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
     private void IniciarCampos() {
 
         campo_nome = findViewById(R.id.campo_nome);
@@ -57,6 +51,14 @@ public class PerfilActivity extends AppCompatActivity {
         PreencheCampoSpinner(campo_cor, R.array.cor);
         PreencheCampoSpinner(campo_tipo_fisico, R.array.tipo_fisico);
 
+    }
+
+    private void PreencheCampoSpinner(Spinner spinner, int arrays) {
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                arrays, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
 
@@ -83,33 +85,33 @@ public class PerfilActivity extends AppCompatActivity {
     private void save(Usuario usuario) {
 
         usuario = new Usuario();
-        usuario.setNome(campo_nome.getText().toString());
+        usuarioDao = new UsuarioDao(this);
 
         if (validaCampo()) {
-
-            usuario.setSexo(campo_sexo.getSelectedItem().toString());
-            usuario.setCor(campo_cor.getSelectedItem().toString());
-            usuario.setTipoFisico(campo_tipo_fisico.getSelectedItem().toString());
-
-            usuarioDao = new UsuarioDao();
-
-            //add usuario na lista
-            if (usuarioDao.addUsuario(usuario)) {
-
-                Log.e(TAG, usuarioDao.lista().toString());
-                Intent intent = new Intent(this, MapaActivity.class);
+            adicionarDadosNoUsuario(usuario);
+            //salva osdados no banco
+            if (usuarioDao.save(usuario)) {
+                //Intent intent = new Intent(this, MapaActivity.class);
                 //intent.putExtra("usuario", usuario);
-                startActivity(intent);
+                //startActivity(intent);
             } else {
                 new DialogSalvarUsuarioUtil(PerfilActivity.this).showMensagem("Aviso", "Erro ao cadsatrar usuário;");
             }
-
         } else {
             new DialogSalvarUsuarioUtil(PerfilActivity.this).showMensagem("Aviso", "Campos invalidos, preencha novamente !");
         }
     }
 
-    private  boolean validaCampo(){
+    private void adicionarDadosNoUsuario(Usuario usuario) {
+
+        usuario.setNome(campo_nome.getText().toString());
+        usuario.setSexo(campo_sexo.getSelectedItem().toString());
+        usuario.setCor(campo_cor.getSelectedItem().toString());
+        usuario.setTipoFisico(campo_tipo_fisico.getSelectedItem().toString());
+        usuario.setPocisao(new LatLng(0,0));
+    }
+
+    private boolean validaCampo() {
         if (!campo_sexo.getSelectedItem().equals("Sexo")
                 && !campo_cor.getSelectedItem().equals("Cor")
                 && !campo_tipo_fisico.getSelectedItem().equals("Tipo físico")
@@ -118,7 +120,7 @@ public class PerfilActivity extends AppCompatActivity {
             return true;
         }
 
-        return  false;
+        return false;
     }
 
 }

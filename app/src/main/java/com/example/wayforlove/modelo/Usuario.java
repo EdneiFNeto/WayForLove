@@ -6,22 +6,32 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable {
 
-    public Usuario() {
-    }
-
-    public Usuario(String nome, String sexo, String tipoFisico, String cor, LatLng pocisao) {
-        this.nome = nome;
-        this.sexo = sexo;
-        this.tipoFisico = tipoFisico;
-        this.cor = cor;
-        this.pocisao = pocisao;
-    }
-
     private String nome;
     private String sexo;
     private String tipoFisico;
     private String cor;
     private LatLng pocisao;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Usuario() {
+    }
+
+    public Usuario(String nome, String sexo, String tipoFisico, String cor, LatLng pocisao, String id) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.tipoFisico = tipoFisico;
+        this.cor = cor;
+        this.pocisao = pocisao;
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

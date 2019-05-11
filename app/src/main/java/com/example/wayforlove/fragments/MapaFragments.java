@@ -13,10 +13,8 @@ import android.widget.Toast;
 
 import com.example.wayforlove.dao.UsuarioDao;
 import com.example.wayforlove.modelo.Usuario;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.example.wayforlove.util.ChecaPermisaoUtil;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -28,6 +26,7 @@ public class MapaFragments extends SupportMapFragment implements OnMapReadyCallb
     private static final Integer CODE_1 = 100;
     public static final String MAPA_LOG = "MapaLog";
     public static final String MAP_FRAGEMT_LOG = "MapFragemtLog";
+    public static final String TAG = "TAG";
     private LocationManager manager;
     private Usuario usuario;
     private GoogleMap googleMap;
@@ -48,72 +47,49 @@ public class MapaFragments extends SupportMapFragment implements OnMapReadyCallb
     @Override
     public void onResume() {
         super.onResume();
+        dao = new UsuarioDao(getContext());
+        List<Usuario> usuarios = dao.selecionaUsuario();
 
-        dao = new UsuarioDao();
-        listaDeUsuarios = dao.lista();
-        //Log.e(MAP_FRAGEMT_LOG, listaDeUsuarios.toString());
-        //getUsuarios(listaDeUsuarios);
-    }
-
-    private void getUsuarios(List<Usuario> listaDeUsuarios) {
-
-        if(listaDeUsuarios != null){
-            if(listaDeUsuarios.size() > 0){
-
-                nome = listaDeUsuarios.get(0).getNome();
-                sexo = listaDeUsuarios.get(0).getSexo();
-                cor = listaDeUsuarios.get(0).getCor();
-                tipoFisico = listaDeUsuarios.get(0).getTipoFisico();
+        if(usuarios!=null){
+            if(usuarios.size() > 0){
+                for (Usuario usuario: usuarios){
+                    Log.e(TAG, "Usuarios: "+usuario.toString());
+                }
             }
-        }else{
-            Log.e(MAP_FRAGEMT_LOG, "listaDeUsuarios null");
         }
 
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         this.googleMap = googleMap;
 
-        if (checkPermission())
+        //cria maapa
+        CameraUpdate update  = CameraUpdateFactory.newCameraPosition(posicao);
+
+        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ChecaPermisaoUtil.checkPermission(getActivity()))
             return;
 
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        //add marker no mapa
-        //addMarkerMapa(googleMap, new LatLng(-22.90, -43.26));
     }
 
-    private void addMarkerMapa(GoogleMap googleMap, LatLng posicao) {
+    private void addMarkerMapa(GoogleMap googleMap, Usuario usuario) {
 
         //ecebe um carcador
-        MarkerOptions marker = getMarcador(posicao);
+        MarkerOptions marker = getMarcador(usuario);
         googleMap.addMarker(marker);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicao, 17));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(usuario.getPocisao(), 17));
     }
 
-    private boolean checkPermission() {
-
-        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return true;
-        }
-
-        return false;
-    }
-
-    private MarkerOptions getMarcador( LatLng latLng) {
-
+    private MarkerOptions getMarcador(Usuario usuario) {
 
         MarkerOptions marker = new MarkerOptions();
-        marker.position(latLng);
-        marker.title("Ednei");
-        //marker.snippet("Sexo: "+usuario.lista().get(index).getSexo());
-
+        marker.position(usuario.getPocisao());
+        marker.title(usuario.getNome());
         return marker;
     }
 
@@ -122,7 +98,7 @@ public class MapaFragments extends SupportMapFragment implements OnMapReadyCallb
     public void onLocationChanged(Location location) {
         int speed = (int) ((location.getSpeed() * 3600) / 1000);
 
-        if (speed > 5 || speed > 3) {
+        if (speed > 5 || speed > 2) {
             try {
                 addMarkerMapa(googleMap, new LatLng(location.getLatitude(), location.getLongitude()));
                 Toast.makeText(getContext(), "Mudou localizacao: " + location.getLatitude() + "\n" + location.getLongitude(),
