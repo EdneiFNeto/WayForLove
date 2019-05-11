@@ -13,13 +13,6 @@ public class Usuario implements Serializable {
     private LatLng pocisao;
     private String id;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Usuario() {
     }
@@ -30,6 +23,15 @@ public class Usuario implements Serializable {
         this.tipoFisico = tipoFisico;
         this.cor = cor;
         this.pocisao = pocisao;
+        this.id = id;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 

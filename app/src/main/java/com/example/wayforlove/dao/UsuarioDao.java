@@ -51,18 +51,17 @@ public class UsuarioDao {
 
     public List<Usuario> selecionaUsuario(){
         usuarios = new ArrayList<>();
-        Cursor cursor;
-        String[] columns ={dataBase.ID, dataBase.NOME, dataBase.SEXO, dataBase.COR, dataBase.TIPO_FISICO};
-        cursor = helper.query(dataBase.TABELA, columns, null, null, null, null, null);
+        helper = dataBase.getWritableDatabase();
+        String[] columns ={dataBase.NOME, dataBase.SEXO, dataBase.COR, dataBase.TIPO_FISICO};
+        Cursor cursor = helper.query(DataBase.TABELA, columns, null, null, null, null, null);
 
         while (cursor.moveToNext()){
 
             Usuario usuario = new Usuario();
-            usuario.setId(cursor.getString(0));
-            usuario.setNome(cursor.getString(1));
-            usuario.setSexo(cursor.getString(2));
-            usuario.setCor(cursor.getString(3));
-            usuario.setTipoFisico(cursor.getString(4));
+            usuario.setNome(cursor.getString(0));
+            usuario.setSexo(cursor.getString(1));
+            usuario.setCor(cursor.getString(2));
+            usuario.setTipoFisico(cursor.getString(3));
             usuarios.add(usuario);
         }
 
